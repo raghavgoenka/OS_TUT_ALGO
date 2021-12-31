@@ -1,13 +1,38 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+int frameCount,flag=-1;
+void display(queue<int>temp)
+{
+    int n=temp.size();
+   while(!temp.empty()){
+		cout<<temp.front()<<"\t";
+		temp.pop();
+	}
+    for(int i=0;i<frameCount-n;i++)
+    {
+        cout<<"-1"<<"\t";
+    }
+    if(flag==1)
+    {
+        cout<<"HIT";
+    }
+    else
+    {
+        cout<<"MISS";
+    }
+    cout<<endl;
+
+}
+
+
 
 int pageFault(vector<int>pages,int n,int framesCount)
 {
     queue<int> q;
     set<int> frame;
     int pageFault_count = 0;
-
+    
     for(int i=0;i<n;i++)
     {
         int pageNo = pages[i];
@@ -24,7 +49,11 @@ int pageFault(vector<int>pages,int n,int framesCount)
             frame.insert(pageNo); // new page is inserted in the set
             q.push(pageNo);       // new page is inserted in the queue
             pageFault_count++;   //increment page fault count
+            flag=0;
         }
+        else{flag=1;}
+
+        display(q);
     }
     return pageFault_count;
 
@@ -40,9 +69,9 @@ int main()
 {  
     cout<<"Enter the length of the refernce string and number of frames: ";
 
-    int n,framesCount;
+    int n;
 
-    cin>>n>>framesCount;
+    cin>>n>>frameCount;
     
     vector<int>pages(n);
 
@@ -54,8 +83,9 @@ int main()
     {
          cin>>pages[i]; 
     }
-   
-    cout <<"Total number of page faults are: " <<pageFault(pages,n,framesCount) << "\n";
+   cout<<endl<<"Frame Table"<<endl;
+   int t=pageFault(pages,n,frameCount);
+    cout <<"Total number of page faults are: " <<t<< "\n";
     return 0;
     
 }
